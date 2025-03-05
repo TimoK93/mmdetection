@@ -144,7 +144,7 @@ def fast_nms(
 
     scores = multi_scores[:, :-1].t()  # [#class, n]
     scores, idx = scores.sort(1, descending=True)
-
+    print(top_k)
     idx = idx[:, :top_k].contiguous()
     scores = scores[:, :top_k]  # [#class, topk]
     num_classes, num_dets = idx.size()

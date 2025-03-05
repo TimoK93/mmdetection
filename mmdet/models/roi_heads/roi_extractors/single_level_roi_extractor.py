@@ -105,7 +105,10 @@ class SingleRoIExtractor(BaseRoIExtractor):
             if inds.numel() > 0:
                 rois_ = rois[inds]
                 roi_feats_t = self.roi_layers[i](feats[i], rois_)
-                roi_feats[inds] = roi_feats_t
+                if roi_feats[inds].dtype != roi_feats_t.dtype:
+                    roi_feats[inds] = roi_feats_t.to(roi_feats[inds].dtype)
+                else:
+                    roi_feats[inds] = roi_feats_t
             else:
                 # Sometimes some pyramid levels will not be used for RoI
                 # feature extraction and this will cause an incomplete
