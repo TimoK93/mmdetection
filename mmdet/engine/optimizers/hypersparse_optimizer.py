@@ -73,10 +73,14 @@ class HypersparseWrapper(OptimWrapper):
         if not self.is_asp_initialized:
             self.is_asp_initialized = True
             ASP.init_model_for_pruning(
-                self.model, mask_calculator="m4n2_1d", verbosity=2,
+                self.model,
+                mask_calculator="m4n2_1d",
+                verbosity=2,
                 whitelist=[torch.nn.Linear, torch.nn.Conv2d,
                            torch.nn.MultiheadAttention],
-                allow_recompute_mask=True, allow_permutation=True)
+                allow_recompute_mask=True,
+                allow_permutation=False, # True
+            )
             ASP.init_optimizer_for_pruning(self.optimizer)
         ASP.compute_sparse_masks()
 
